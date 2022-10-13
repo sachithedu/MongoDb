@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+import time
 import requests, json
 from datetime import datetime
 import certifi
@@ -81,7 +82,8 @@ def pose():
 @app.route("/post/env", methods=["POST"])
 def postEnv():
     x = request.get_json()
-    add = db.env.insert_one(x)
+    postInfo = {"temp":x["temp"], "humidity":x["humidity"], "timestamp":time.time()}
+    add = db.env.insert_one(postInfo)
     return "complete"
 
 @app.route("/post/pose", methods=["POST"])
